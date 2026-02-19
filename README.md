@@ -72,7 +72,7 @@ Proyek ini dibuat dengan semangat belajar dan pengembangan keterampilan dalam bi
 ### 📬 Kontak Pengembang
 Jika ingin berdiskusi atau memberi masukan:
 - ✉️ Email: *(isi sesuai kebutuhanmu)*
-- 💻 GitHub: [@usernamekamu](https://github.com/usernamekamu)
+- 💻 GitHub: [@FauziIrwanaZ](https://github.com/FauziIrwanaZ)
 
 ---
 
