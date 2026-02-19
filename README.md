@@ -1,3 +1,10 @@
+<p align="center">
+  <img src="https://laravel.com/img/logotype.min.svg" alt="Laravel Logo" width="150" style="margin-right:20px;">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg" alt="Tailwind CSS Logo" width="150" style="margin-right:20px;">
+  <img src="https://livewire.laravel.com/img/logo.svg" alt="Livewire Logo" width="150">
+</p>
+
+
 # 🏥 Sistem Klinik Rawat Inap (Tugas Akhir Sederhana)
 
 Aplikasi **Sistem Manajemen Klinik Rawat Inap** berbasis web yang dikembangkan sebagai **tugas akhir sederhana**.  
