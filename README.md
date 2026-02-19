@@ -50,7 +50,7 @@ Proyek ini dibuat dengan semangat belajar dan pengembangan keterampilan dalam bi
 - Livewire v3  
 - Tailwind CSS v3  
 
-> ❤️ *"Dibuat dengan cinta dan semangat untuk belajar."*
+
 
 ---
 
