@@ -76,4 +76,4 @@ Jika ingin berdiskusi atau memberi masukan:
 ---
 
 > © 2026 - Sistem Klinik Rawat Inap | Tugas Akhir Sederhana
->>>>>>> 8d92464234905580e1edf88b20804e9ed1a958ab
+
