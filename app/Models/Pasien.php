@@ -92,17 +92,18 @@ class Pasien extends Model
     // BOOT — Auto-generate Nomor RM
     // ============================================
  
-    protected static function boot()
-    {
-        parent::boot();
- 
-        // Otomatis generate Nomor RM saat data pasien dibuat
-        static::creating(function ($pasien) {
-            if (!$pasien->nomor_rm) {
-                $urutan = static::count() + 1;
-                $pasien->nomor_rm = 'RM-' . str_pad($urutan, 6, '0', STR_PAD_LEFT);
-            }
-        });
-    }
+ protected static function boot()
+{
+    parent::boot();
+
+    static::creating(function ($pasien) {
+        if (!$pasien->nomor_rm) {
+            // Gunakan max id, bukan count — lebih aman dan tidak recursive
+            $lastId = static::withoutGlobalScopes()->max('id') ?? 0;
+            $urutan = $lastId + 1;
+            $pasien->nomor_rm = 'RM-' . str_pad($urutan, 6, '0', STR_PAD_LEFT);
+        }
+    });
+}
 }
  

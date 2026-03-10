@@ -39,7 +39,7 @@ class KamarComponent extends Component
     // ─────────────────────────────────────────
     protected function rules(): array
     {
-        $unikNomor = 'unique:kamars,nomor_kamar'
+        $unikNomor = 'unique:kamar,nomor_kamar'
             . ($this->kamarId ? ','.$this->kamarId : '');
  
         return [

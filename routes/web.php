@@ -7,7 +7,7 @@ use App\Livewire\PasienComponent;
 use App\Livewire\KamarComponent;
 use App\Livewire\RawatInapComponent;
 use App\Livewire\TransaksiComponent;
- 
+use App\Livewire\PasienDashboardComponent;
 // ══════════════════════════════════════════
 // PUBLIK — tidak butuh login
 // ══════════════════════════════════════════
@@ -30,18 +30,18 @@ Route::middleware(['auth'])->group(function () {
  
     // ── ADMIN & PETUGAS ──
     Route::middleware(['role:admin,petugas'])->group(function () {
-        Route::get('/pasien',    PasienComponent::class)->name('admin.pasien');
-        Route::get('/kamar',     KamarComponent::class)->name('admin.kamar');
-        Route::get('/transaksi', TransaksiComponent::class)->name('admin.transaksi');
+          Route::get('/pasien', fn() => view('admin.pasien'))->name('admin.pasien');
+           Route::get('/kamar', fn() => view('admin.kamar'))->name('admin.kamar');
+        Route::get('/transaksi', fn() => view('admin.transaksi'))->name('admin.transaksi');
     });
  
     // ── PETUGAS & DOKTER ──
     Route::middleware(['role:petugas,dokter'])->group(function () {
-        Route::get('/rawat-inap', RawatInapComponent::class)->name('rawat-inap');
+        Route::get('/rawat-inap', fn() => view('petugas.rawatInap'))->name('rawat-inap');
     });
  
     // ── PASIEN — riwayat & tagihan sendiri ──
     Route::middleware(['role:pasien'])->group(function () {
-        Route::get('/riwayat-saya', TransaksiComponent::class)->name('pasien.riwayat');
+        Route::get('/riwayat-saya', fn() => view('pasien.riwayat-saya.riwayat'))->name('pasien.riwayat');
     });
 });

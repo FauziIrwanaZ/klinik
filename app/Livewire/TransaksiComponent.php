@@ -53,7 +53,7 @@ class TransaksiComponent extends Component
     protected function rules(): array
     {
         return [
-            'rawatInapId'  => 'required|exists:rawat_inaps,id',
+            'rawatInapId'  => 'required|exists:rawat_inap,id',
             'biayaLain'    => 'required|numeric|min:0',
             'caraBayar'    => 'required|in:tunai,bpjs,asuransi,transfer',
             'statusBayar'  => 'required|in:belum_bayar,lunas,cicilan',
