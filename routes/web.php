@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
-use App\Livewire\PasienComponent;
+use App\Http\Controllers\PenggunaController;
 use App\Livewire\KamarComponent;
 use App\Livewire\RawatInapComponent;
 use App\Livewire\TransaksiComponent;
@@ -33,6 +33,7 @@ Route::middleware(['auth'])->group(function () {
           Route::get('/pasien', fn() => view('admin.pasien'))->name('admin.pasien');
            Route::get('/kamar', fn() => view('admin.kamar'))->name('admin.kamar');
         Route::get('/transaksi', fn() => view('admin.transaksi'))->name('admin.transaksi');
+        Route::get('/pengguna', fn() => view('admin.pengguna'))->name('admin.pengguna');
     });
  
     // ── PETUGAS & DOKTER ──
