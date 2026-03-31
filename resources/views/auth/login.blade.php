@@ -19,6 +19,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
+    [x-cloak] { display: none !important; }
     /* ── Tokens ── */
     :root {
         --g-deep:   #052e16;
@@ -171,6 +172,12 @@
         transform: rotate(45deg);
     }
     .custom-check:focus { outline: none; box-shadow: 0 0 0 3px var(--focus); }
+    /* ── Dot pulse (untuk loading button) ── */
+    @keyframes dot {
+        0%, 80%, 100% { opacity: .2; transform: scale(.8); }
+        40%            { opacity: 1;  transform: scale(1);  }
+    }
+</style>  {{-- ← tutup tag style yang sudah ada --}}
 </style>
 
 {{-- ═══════════════════════════════════════════════════════════════════ --}}
@@ -514,44 +521,42 @@
                 </div>
 
                 {{-- ── Submit button ── --}}
-                <button type="submit"
-                        :disabled="loading"
-                        class="btn-login w-full flex items-center justify-center gap-2.5
-                               bg-gradient-to-r from-green-700 to-emerald-700
-                               hover:from-green-600 hover:to-emerald-600
-                               active:from-green-800 active:to-emerald-800
-                               disabled:opacity-60 disabled:cursor-not-allowed
-                               text-white font-bold text-[.9375rem] py-3.5 rounded-2xl
-                               shadow-md shadow-green-900/20
-                               hover:shadow-lg hover:shadow-green-900/25
-                               transition-all duration-200 mt-1
-                               focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2"
-                        aria-label="Masuk ke sistem">
+               {{-- ── Submit button ── --}}
+<button type="submit"
+        :disabled="loading"
+        class="w-full relative flex items-center justify-center gap-2
+               h-[46px] px-6 rounded-xl
+               bg-green-50 hover:bg-green-100
+               text-green-700 text-sm font-medium
+               ring-1 ring-green-200 hover:ring-green-300
+               disabled:opacity-50 disabled:cursor-not-allowed
+               transition-all duration-150
+               focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+        aria-label="Masuk ke sistem">
 
-                    {{-- Normal state --}}
-                    <span x-show="!loading" class="flex items-center gap-2">
-                        <svg class="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24"
-                             stroke="currentColor" stroke-width="2.3" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
-                        </svg>
-                        Masuk ke Sistem
-                    </span>
+    {{-- Normal state --}}
+    <span x-show="!loading" class="flex items-center gap-2">
+        <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+             stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
+        </svg>
+        Masuk ke Sistem
+    </span>
 
-                    {{-- Loading state --}}
-                    <span x-show="loading"
-                          class="flex items-center gap-2"
-                          role="status"
-                          aria-live="polite">
-                        <svg class="w-4.5 h-4.5 animate-spin" fill="none" viewBox="0 0 24 24" aria-hidden="true">
-                            <circle class="opacity-25" cx="12" cy="12" r="10"
-                                    stroke="currentColor" stroke-width="4"/>
-                            <path class="opacity-75" fill="currentColor"
-                                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
-                        </svg>
-                        Sedang masuk…
-                    </span>
-                </button>
+    {{-- Loading state — dot pulse --}}
+    <span x-show="loading" x-cloak
+          class="flex items-center gap-2.5"
+          role="status" aria-live="polite">
+        Sedang masuk
+        <span class="flex items-center gap-1" aria-hidden="true">
+            <span class="w-1.5 h-1.5 rounded-full bg-green-600 animate-[dot_.9s_ease-in-out_infinite]"></span>
+            <span class="w-1.5 h-1.5 rounded-full bg-green-600 animate-[dot_.9s_ease-in-out_.2s_infinite]"></span>
+            <span class="w-1.5 h-1.5 rounded-full bg-green-600 animate-[dot_.9s_ease-in-out_.4s_infinite]"></span>
+        </span>
+    </span>
+
+</button>
             </form>
 
             {{-- ── Register link ── --}}

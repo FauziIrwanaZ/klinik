@@ -214,14 +214,25 @@ class PasienComponent extends Component
 
         $pasien = Pasien::with(['pengguna', 'rawatInaps'])->findOrFail($this->hapusId);
 
-        if ($pasien->rawatInaps()->where('status', 'dirawat')->exists()) {
-            session()->flash('error', '❌ Tidak bisa dihapus! Pasien masih dalam perawatan.');
-            $this->batalHapus();
-            return;
-        }
+        // Cegah hapus jika masih ada pasien aktif dirawat
+    if ($pasien->rawatInaps()->where('status', 'dirawat')->exists()) {
+        session()->flash('error', 'Tidak bisa dihapus! Pasien masih dalam perawatan.');
+        $this->batalHapus();
+        return;
+    }
 
+    // Hapus riwayat rawat inap beserta transaksinya dulu
+    $pasien->rawatInaps()->each(function ($ri) {
+        $ri->transaksi()->delete(); // hapus transaksi jika ada
+        $ri->delete();
+    });
+
+    // Hapus akun pengguna (akan ikut menghapus pasien via cascade atau manual)
+    if ($pasien->pengguna) {
         $pasien->pengguna->delete();
-
+    } else {
+        $pasien->delete();
+    }
         $this->batalHapus();
         session()->flash('sukses', '✅ Data pasien berhasil dihapus.');
         $this->resetPage();

@@ -68,9 +68,9 @@ class RawatInapComponent extends Component
  
         // Mode CRUD penuh (petugas)
         return [
-            'pasienId'      => 'required|exists:pasiens,id',
-            'dokterId'      => 'required|exists:dokters,id',
-            'kamarId'       => 'required|exists:kamars,id',
+            'pasienId'      => 'required|exists:pasien,id',
+            'dokterId'      => 'required|exists:dokter,id',
+            'kamarId'       => 'required|exists:kamar,id',
             'tanggalMasuk'  => 'required|date',
             'tanggalKeluar' => 'nullable|date|after_or_equal:tanggalMasuk',
             'keluhan'       => 'nullable|string',

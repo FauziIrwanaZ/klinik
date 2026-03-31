@@ -89,4 +89,6 @@ class Kamar extends Model
     {
         return $query->where('tipe_kamar', $tipe);
     }
+
+    
 }

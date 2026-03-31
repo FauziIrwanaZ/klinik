@@ -68,7 +68,9 @@ $attrs = $href ? "href={$href}" : '';
     aria-label="{{ $title }}: {{ $value }}">
 
     {{-- Colored accent bar (top) --}}
-    <div class="absolute top-0 inset-x-0 h-0.5 {{ $c['bar'] }}" aria-hidden="true"></div>
+   <div class="absolute left-0 inset-y-0 w-[3px] rounded-r-full {{ $c['bar'] }}"
+     style="box-shadow: 2px 0 8px var(--tw-shadow-color)"
+     aria-hidden="true"></div>
 
     <div class="px-5 pt-5 pb-4">
         {{-- Header: icon + title --}}

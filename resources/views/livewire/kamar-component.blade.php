@@ -691,7 +691,7 @@
     {{-- namaHapus ke KamarComponent jika belum ada      --}}
     {{-- ════════════════════════════════════════════════ --}}
 
-    @if (isset($konfirmasiHapus) && $konfirmasiHapus)
+    @if ($tampilKonfirmasi)
     <div
         class="fixed inset-0 z-50 flex items-center justify-center p-4"
         x-data
@@ -752,7 +752,7 @@
             </div>
         </div>
     </div>
-    @else
+   
     {{-- Fallback: jika KamarComponent tidak punya konfirmasiHapus,
          gunakan wire:confirm bawaan Livewire v3 --}}
     @endif

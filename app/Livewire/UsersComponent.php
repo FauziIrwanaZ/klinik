@@ -30,7 +30,7 @@ class UsersComponent extends Component
     public bool   $tampilForm      = false;
     public bool   $modeEdit        = false;
     public bool   $tampilPassword  = false;
-    public bool   $konfirmasiHapus = false;
+    public bool   $TampilkonfirmasiHapus = false;
     public ?int   $idHapus         = null;
     public string $namaHapus       = '';
 
@@ -190,9 +190,21 @@ class UsersComponent extends Component
             return;
         }
 
+    // Cegah hapus jika pasien punya riwayat rawat inap
+    if ($p->pasien && $p->pasien->rawatInaps()->exists()) {
+        session()->flash('error', 'Pengguna tidak dapat dihapus karena memiliki riwayat rawat inap sebagai pasien.');
+        return;
+    }
+
+    // Cegah hapus jika dokter punya riwayat rawat inap
+    if ($p->dokter && $p->dokter->rawatInaps()->exists()) {
+        session()->flash('error', 'Pengguna tidak dapat dihapus karena memiliki riwayat rawat inap sebagai dokter.');
+        return;
+    }
+
         $this->idHapus         = $id;
         $this->namaHapus       = $p->nama;
-        $this->konfirmasiHapus = true;
+        $this->TampilkonfirmasiHapus = true;
     }
 
     public function hapus(): void
@@ -201,7 +213,19 @@ class UsersComponent extends Component
 
         $p    = Pengguna::findOrFail($this->idHapus);
         $nama = $p->nama;
-        $p->delete();
+
+          // Hapus relasi pasien dulu jika ada (tanpa riwayat rawat inap)
+    if ($p->pasien) {
+        $p->pasien->delete();
+    }
+
+     // Hapus relasi dokter jika ada
+    if ($p->dokter) {
+        $p->dokter->delete();
+    }
+
+    $p->delete();
+
 
         $this->batalHapus();
         session()->flash('pesan', "Pengguna \"{$nama}\" berhasil dihapus.");
@@ -209,7 +233,7 @@ class UsersComponent extends Component
 
     public function batalHapus(): void
     {
-        $this->konfirmasiHapus = false;
+        $this->TampilkonfirmasiHapus = false;
         $this->idHapus         = null;
         $this->namaHapus       = '';
     }

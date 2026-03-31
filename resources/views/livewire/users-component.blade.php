@@ -354,7 +354,7 @@
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 bg-green-700 rounded-xl flex items-center
                                     justify-center text-xl">
-                            {{ $modeEdit ? '&#9998;' : '&#43;' }}
+                          {!! $modeEdit ? '&#9998;' : '&#43;' !!}
                         </div>
                         <div>
                             <h3 class="text-lg font-bold text-white">
@@ -547,7 +547,7 @@
     {{-- ─────────────────────────────────────────────────
          DIALOG KONFIRMASI HAPUS
     ───────────────────────────────────────────────────── --}}
-    @if ($konfirmasiHapus)
+    @if ($TampilkonfirmasiHapus)
     <div
         class="fixed inset-0 z-50 flex items-center justify-center p-4"
         x-data

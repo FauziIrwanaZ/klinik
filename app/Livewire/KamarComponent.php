@@ -24,6 +24,9 @@ class KamarComponent extends Component
     // Properti UI
     public bool   $tampilForm    = false;
     public bool   $modeEdit      = false;
+    public bool  $tampilKonfirmasi = false;
+    public ?int   $idHapus      = null;
+    public string $namaHapus      = '';
     public string $cari          = '';
     public string $filterStatus  = '';
     public string $filterTipe    = '';
@@ -141,21 +144,41 @@ class KamarComponent extends Component
     // ─────────────────────────────────────────
     // HAPUS KAMAR
     // ─────────────────────────────────────────
-    public function hapus(int $id): void
-    {
-        $kamar = Kamar::withCount([
-            'rawatInaps as aktif' => fn($q) => $q->where('status', 'dirawat')
-        ])->findOrFail($id);
- 
-        // Kamar tidak bisa dihapus jika masih ada pasien aktif
-        if ($kamar->aktif > 0) {
-            session()->flash('error', '❌ Kamar tidak dapat dihapus karena masih ada pasien!');
-            return;
-        }
- 
-        $kamar->delete();
-        session()->flash('pesan', '✅ Data kamar berhasil dihapus.');
+
+public function konfirmasiHapus(int $id): void
+{
+    $kamar = Kamar::findOrFail($id);
+
+    if ($kamar->rawatInaps()->where('status', 'dirawat')->exists()) {
+        session()->flash('error', 'Kamar tidak dapat dihapus karena masih ada pasien aktif!');
+        return;
     }
+
+    $this->idHapus          = $id;
+    $this->namaHapus        = 'Kamar ' . $kamar->nomor_kamar;
+    $this->tampilKonfirmasi = true;
+}
+
+public function hapus(): void  // ← hapus parameter int $id
+{
+    if (!$this->idHapus) return;
+
+    $kamar = Kamar::findOrFail($this->idHapus);
+    $nomor = $kamar->nomor_kamar;
+     // Hapus relasi dulu sebelum hapus kamar
+    $kamar->rawatInaps()->delete();
+    $kamar->delete();
+
+    $this->batalHapus();
+    session()->flash('pesan', "Kamar \"{$nomor}\" berhasil dihapus.");
+}
+
+public function batalHapus(): void
+{
+    $this->tampilKonfirmasi = false;
+    $this->idHapus          = null;
+    $this->namaHapus        = '';
+}
  
     // ─────────────────────────────────────────
     // UBAH STATUS KAMAR SECARA CEPAT
