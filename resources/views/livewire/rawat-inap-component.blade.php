@@ -149,10 +149,15 @@
                                      bg-purple-100 text-purple-700 border border-purple-200">
                             🩺 Mode Dokter
                         </span>
-                    @else
+                    @elseif ($rolePengguna === 'petugas')
                         <span class="text-xs px-2.5 py-1 rounded-full font-semibold
                                      bg-blue-100 text-blue-700 border border-blue-200">
                             📋 Mode Petugas
+                        </span>
+                    @elseif ($rolePengguna === 'admin')
+                        <span class="text-xs px-2.5 py-1 rounded-full font-semibold
+                                     bg-green-100 text-green-700 border border-green-200">
+                            👑 Mode Admin
                         </span>
                     @endif
                 </div>
@@ -160,7 +165,7 @@
             </div>
 
             {{-- Tombol hanya untuk petugas --}}
-            @if ($rolePengguna === 'petugas')
+            @if (in_array($rolePengguna, ['petugas', 'admin']))
                 <button
                     wire:click="bukaFormTambah"
                     class="flex items-center gap-2 bg-green-700 hover:bg-green-800
@@ -349,7 +354,7 @@
                                 </span>
 
                                 {{-- Indikator diagnosa (khusus dokter) --}}
-                                @if($rolePengguna === 'dokter')
+                                @if(in_array($rolePengguna, ['dokter', 'admin']))
                                     @if($ri->diagnosa)
                                         <p class="text-xs text-green-500 mt-1">📋 Ada diagnosa</p>
                                     @else
@@ -362,7 +367,7 @@
                             <td class="px-5 py-3.5">
                                 <div class="flex items-center justify-center gap-1.5">
 
-                                    @if ($rolePengguna === 'petugas')
+                                    @if ($rolePengguna === 'petugas' || $rolePengguna === 'admin')
                                         {{-- ── AKSI PETUGAS ── --}}
 
                                         {{-- Tombol Edit --}}
@@ -398,7 +403,7 @@
                                             Hapus
                                         </button>
 
-                                    @elseif ($rolePengguna === 'dokter')
+                                    @elseif (in_array($rolePengguna, ['dokter', 'admin']))
                                         {{-- ── AKSI DOKTER ── --}}
 
                                         <button
@@ -444,7 +449,7 @@
                                         <p class="text-sm mt-1">
                                             @if($cari || $filterStatus)
                                                 Coba ubah kata kunci atau filter status
-                                            @elseif($rolePengguna === 'petugas')
+                                            @elseif(in_array($rolePengguna, ['petugas', 'admin']))
                                                 Klik "Daftarkan Rawat Inap" untuk memulai
                                             @else
                                                 Belum ada pasien yang ditangani Anda

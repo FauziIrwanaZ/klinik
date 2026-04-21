@@ -23,6 +23,8 @@ class TransaksiComponent extends Component
     public float $biayaKamar  = 0;
     public float $biayaDokter = 0;
     public float $totalBiaya  = 0;
+    public int $lamaRawat    = 0;
+    public int $hargaPerMalam = 0;
  
     // Properti UI
     public bool   $tampilForm        = false;
@@ -94,9 +96,12 @@ class TransaksiComponent extends Component
         $ri = RawatInap::with(['kamar', 'dokter'])->find($this->rawatInapId);
         if (!$ri) return;
  
+          $tglKeluar = $ri->tanggal_keluar ?? now();
+    $this->lamaRawat     = max(1, (int) $ri->tanggal_masuk->diffInDays($tglKeluar));
+    $this->hargaPerMalam = (int) ($ri->kamar->harga_malam ?? 0);
         // Hitung biaya kamar: harga_malam × lama dirawat
-        $this->biayaKamar  = $ri->lama_dirawat * $ri->kamar->harga_malam;
-        $this->biayaDokter = $ri->dokter->tarif_konsultasi;
+         $this->biayaKamar  = $this->hargaPerMalam * $this->lamaRawat;
+         $this->biayaDokter = (int) ($ri->dokter->tarif ?? 0);
         $this->totalBiaya  = $this->biayaKamar + $this->biayaDokter + (float)$this->biayaLain;
     }
  
@@ -196,8 +201,13 @@ class TransaksiComponent extends Component
  
     public function render()
     {
+
         $query = Transaksi::with(['rawatInap.pasien.pengguna', 'rawatInap.kamar']);
- 
+        $statistik = [
+    'belum_bayar' => Transaksi::where('status_bayar','belum_bayar')->count(),
+    'cicilan'     => Transaksi::where('status_bayar','cicilan')->count(),
+    'lunas'       => Transaksi::where('status_bayar','lunas')->count(),
+];
         // Pasien hanya melihat tagihan miliknya sendiri
         if ($this->rolePengguna === 'pasien') {
             $pasienId = auth()->user()->pasien?->id;
@@ -219,12 +229,14 @@ class TransaksiComponent extends Component
         // Rawat inap yang belum memiliki tagihan (untuk dropdown)
         $rawatInapBelumTagih = RawatInap::with(['pasien.pengguna','kamar'])
             ->doesntHave('transaksi')
-            ->where('status', 'dirawat')
+            ->where('status', 'selesai')
             ->get();
  
-        return view('livewire.transaksi-component',
-            compact('transaksi', 'rawatInapBelumTagih')
-        );
+       return view('livewire.transaksi-component', compact(
+            'transaksi',
+            'statistik',
+            'rawatInapBelumTagih',
+        ));
     }
 }
  

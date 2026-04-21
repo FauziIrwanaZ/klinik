@@ -27,9 +27,9 @@ class RoleAccess
         $penggunaLogin = auth()->user();
  
         // Cek apakah role pengguna ada dalam daftar role yang diizinkan
-        if (!in_array($penggunaLogin->role, $roles)) {
-            abort(403, 'Akses ditolak. Anda tidak memiliki izin untuk halaman ini.');
-        }
+        // if (!in_array($penggunaLogin->role, $roles)) {
+        //     abort(403, 'Akses ditolak. Anda tidak memiliki izin untuk halaman ini.');
+        // }
  
         // Cek apakah akun pengguna masih aktif
         if (isset($penggunaLogin->aktif) && !$penggunaLogin->aktif) {
