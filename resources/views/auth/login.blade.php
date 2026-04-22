@@ -572,7 +572,7 @@
 
             {{-- ── Demo credentials (remove in production) ── --}}
             @if(app()->environment('local', 'development'))
-            <details class="mt-8 group">
+            <!-- <details class="mt-8 group">
                 <summary class="flex items-center gap-2 cursor-pointer select-none
                                 text-xs font-bold text-slate-400 uppercase tracking-widest
                                 hover:text-slate-600 transition-colors list-none">
@@ -613,7 +613,7 @@
                         </div>
                     @endforeach
                 </div>
-            </details>
+            </details> -->
             @endif
 
         </div>{{-- /form container --}}
